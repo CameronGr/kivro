@@ -1,0 +1,30 @@
+[package]
+name = "kivro-keyring"
+description = "os keyring layer for kivro"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+
+[features]
+default = ["os-keyring"]
+# The real OS credential store. Disable for builds that only need the in-memory/test backends
+os-keyring = ["dep:keyring"]
+
+[dependencies]
+kivro-core = { workspace = true }
+serde_json = { workspace = true }
+
+[target.'cfg(target_os = "linux")'.dependencies]
+keyring = { version = "3", features = ["sync-secret-service", "crypto-rust"], optional = true }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+keyring = { version = "3", features = ["apple-native"], optional = true }
+
+[target.'cfg(target_os = "windows")'.dependencies]
+keyring = { version = "3", features = ["windows-native"], optional = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }

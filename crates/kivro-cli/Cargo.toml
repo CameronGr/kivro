@@ -1,0 +1,31 @@
+[package]
+name = "kivro-cli"
+description = "kivro command line interface"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+
+[[bin]]
+name = "kivro"
+path = "src/main.rs"
+
+[dependencies]
+kivro = { workspace = true }
+kivro-core = { workspace = true }
+kivro-crypto = { workspace = true }
+kivro-keyring = { workspace = true }
+kivro-manifest = { workspace = true }
+kivro-sync = { workspace = true }
+serde_json = { workspace = true }
+clap = { version = "4", features = ["derive", "wrap_help"] }
+rpassword = "7"
+ctrlc = "3"
+
+[dev-dependencies]
+assert_cmd = "2"
+predicates = "3"
+tempfile = { workspace = true }
+age = "0.10"

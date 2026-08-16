@@ -1,0 +1,25 @@
+[package]
+name = "kivro"
+description = "lib api for kivro"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+
+[lib]
+name = "kivro"
+path = "src/lib.rs"
+
+[dependencies]
+kivro-core = { workspace = true }
+kivro-manifest = { workspace = true }
+kivro-keyring = { workspace = true }
+kivro-crypto = { workspace = true }
+serde = { workspace = true }
+toml = { workspace = true }
+dirs = "6"
+
+[dev-dependencies]
+tempfile = { workspace = true }

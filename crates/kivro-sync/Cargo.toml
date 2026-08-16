@@ -1,0 +1,17 @@
+[package]
+name = "kivro-sync"
+description = "synchronisation abstraction for kivro"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+
+[dependencies]
+kivro-core = { workspace = true }
+kivro-crypto = { workspace = true }
+kivro-manifest = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
