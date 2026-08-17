@@ -156,23 +156,23 @@ impl Error {
     pub fn hint(&self) -> Option<String> {
         match self {
             Error::ManifestNotFound { .. } => {
-                Some("run `secrets init` in your project root to create one".into())
+                Some("run `kivro init` in your project root to create one".into())
             }
-            Error::MissingSecret { name, .. } => Some(format!("run `secrets set {name}`")),
+            Error::MissingSecret { name, .. } => Some(format!("run `kivro set {name}`")),
             Error::MissingSecrets { names, .. } => Some(format!(
                 "run:\n{}",
-                names.iter().map(|n| format!("    secrets set {n}")).collect::<Vec<_>>().join("\n")
+                names.iter().map(|n| format!("    kivro set {n}")).collect::<Vec<_>>().join("\n")
             )),
             Error::UnknownEnvironment { available, .. } if !available.is_empty() => {
                 Some(format!("declared environments: {}", available.join(", ")))
             }
             Error::NoEnvironment => Some(
-                "pass `--env <name>`, set SECRETS_ENV, or add `[environment] default = \"dev\"` to .secrets.toml"
+                "pass `--env <name>`, set KIVRO_ENV, or add `[environment] default = \"dev\"` to .kivro.toml"
                     .into(),
             ),
-            Error::StoreUnavailable { .. } => Some("run `secrets doctor` for details".into()),
+            Error::StoreUnavailable { .. } => Some("run `kivro doctor` for details".into()),
             Error::CliTooOld { .. } | Error::ManifestTooNew { .. } => {
-                Some("upgrade the `secrets` CLI".into())
+                Some("upgrade the `kivro` CLI".into())
             }
             Error::AlreadyExists { .. } => Some("pass `--force` to overwrite".into()),
             _ => None,
