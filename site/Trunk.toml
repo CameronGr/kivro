@@ -1,0 +1,19 @@
+[build]
+target = "index.html"
+dist = "dist"
+# Emit hashed filenames so deployed assets can be cached indefinitely.
+filehash = true
+
+[tools]
+# Pinned so builds do not depend on whatever wasm-opt happens to be on PATH;
+# a stale binaryen there will reject the wasm features current rustc emits.
+wasm_opt = "version_123"
+
+[watch]
+watch = ["index.html", "src", "styles", "public"]
+ignore = ["dist", "target"]
+
+[serve]
+addresses = ["127.0.0.1"]
+port = 8080
+open = false

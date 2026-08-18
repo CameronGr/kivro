@@ -1,0 +1,85 @@
+/* Structural layout only. Visual design is deliberately left open. */
+
+:root {
+  --sidebar-width: 16rem;
+  --content-max-width: 48rem;
+  --gap: 1.5rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  line-height: 1.6;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.layout__body {
+  display: flex;
+  flex: 1;
+  gap: var(--gap);
+  align-items: flex-start;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap);
+  padding: var(--gap);
+}
+
+.header__nav {
+  display: flex;
+  gap: var(--gap);
+}
+
+.sidebar {
+  flex: 0 0 var(--sidebar-width);
+  padding: var(--gap);
+  position: sticky;
+  top: 0;
+}
+
+.sidebar__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+  max-width: var(--content-max-width);
+  padding: var(--gap);
+}
+
+.footer {
+  padding: var(--gap);
+}
+
+@media (max-width: 48rem) {
+  .layout__body {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    flex: 1 1 auto;
+    width: 100%;
+    position: static;
+  }
+}

@@ -1,0 +1,24 @@
+[package]
+name = "kivro-site"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.96.0"
+license = "MIT"
+authors = ["Cameron"]
+repository = "https://github.com/CameronGr/kivro"
+description = "Documentation website for kivro"
+publish = false
+
+[dependencies]
+leptos = { version = "0.8", features = ["csr"] }
+leptos_router = { version = "0.8" }
+leptos_meta = { version = "0.8" }
+
+console_error_panic_hook = "0.1"
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
