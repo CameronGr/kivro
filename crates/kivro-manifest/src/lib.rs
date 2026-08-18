@@ -15,7 +15,7 @@
 //! * `[meta] min_cli_version` — a soft gate for features that are additive to
 //!   the format but require newer tooling.
 //! * Unknown keys and unknown sections are **ignored, not rejected**, and
-//!   collected into [`Manifest::unknown_keys`] so `secrets doctor` can surface
+//!   collected into [`Manifest::unknown_keys`] so `kivro doctor` can surface
 //!   them as advisory warnings. This is what lets a newer manifest keep working
 //!   with an older CLI when the addition is genuinely optional.
 //!
@@ -59,7 +59,7 @@ pub struct VariableSpec {
     pub depricated: bool,
 }
 
-/// where `secrets sync` should look for missing secrets
+/// where `kivro sync` should look for missing secrets
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct SyncConfig {
     /// backend descriminator
@@ -330,10 +330,10 @@ impl Manifest {
         Ok(())
     }
 
-    /// Render a starter manifest for `secrets init`
+    /// Render a starter manifest for `kivro init`
     pub fn template(project: &ProjectName, environment: &EnvironmentName) -> String {
         format!(
-            "# Managed by `secrets`. This file is safe to commit.\n\
+            "# Managed by `kivro`. This file is safe to commit.\n\
              # It declares WHICH secrets this project needs, never their values.\n\
              \n\
              [meta]\n\

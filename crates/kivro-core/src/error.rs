@@ -27,7 +27,7 @@ pub enum Error {
         supported: u32,
     },
 
-    #[error("manifest `{path}` requires secrets {required} or newer (running {running})")]
+    #[error("manifest `{path}` requires kivro {required} or newer (running {running})")]
     CliTooOld {
         path: PathBuf,
         required: String,

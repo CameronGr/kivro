@@ -1,0 +1,9 @@
+[package]
+name = "rust-app-example"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+kivro = { path = "../../crates/kivro" }
+kivro-core = { path = "../../crates/kivro-core" }

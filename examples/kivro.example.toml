@@ -1,0 +1,51 @@
+# A fully annotated manifest. Copy into your project as `.kivro.toml`.
+# This file is committed. It declares WHICH secrets exist, never their values.
+
+[meta]
+# Manifest format version. A CLI older than this format refuses to run rather
+# than half-understanding the file.
+format = 1
+# Optional: require a minimum CLI version for features that are additive to the
+# format but need newer tooling.
+# min_cli_version = "0.1.0"
+
+[project]
+# Second level of the storage namespace. Changing it orphans stored secrets.
+name = "infinity-launcher"
+
+[environment]
+default = "dev"
+# Optional closed set. When present, `default` and every [environments.*]
+# section must be a member, and any other --env value is rejected.
+list = ["dev", "staging", "production"]
+# Reject undeclared environments (default true). Set false for ad-hoc scratch
+# environments.
+strict = true
+
+# Declarations that apply to every environment.
+[variables]
+DATABASE_URL = { required = true, description = "Primary Postgres DSN", example = "postgres://localhost/launcher" }
+AUTH0_CLIENT_ID = { required = true }
+AUTH0_CLIENT_SECRET = { required = true }
+SENTRY_DSN = { required = false, description = "Error reporting; optional locally" }
+LEGACY_API_TOKEN = { required = false, deprecated = true }
+
+# Per-environment declarations layer over [variables]. A base declaration stays
+# in effect unless overridden by name.
+[environments.dev]
+# Nothing extra locally.
+
+[environments.staging]
+S3_ACCESS_KEY = { required = true }
+S3_SECRET_KEY = { required = true }
+
+[environments.production]
+SENTRY_DSN = { required = true }
+S3_ACCESS_KEY = { required = true }
+S3_SECRET_KEY = { required = true }
+
+# Optional: where `kivro sync` looks for secrets you are missing.
+# Non-secret settings only.
+# [sync]
+# kind = "file"
+# path = "team-secrets"

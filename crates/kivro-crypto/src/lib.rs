@@ -3,7 +3,7 @@
 //!
 //! ```text
 //! {
-//!   "magic":   "infinity-secrets-bundle",
+//!   "magic":   "kivro-bundle",
 //!   "format":  1,
 //!   "cipher":  "age-v1-scrypt",
 //!   "hint":    { ... unauthenticated routing metadata ... },
@@ -208,7 +208,7 @@ pub fn open(text: &str, key: &OpenKey) -> Result<Bundle> {
     if envelope.format > BUNDLE_FORMAT {
         return Err(Error::BundleFormat {
             message: format!(
-                "bundle format {} is newer than the supported format {BUNDLE_FORMAT}; upgrade the `secrets` CLI",
+                "bundle format {} is newer than the supported format {BUNDLE_FORMAT}; upgrade the `kivro` CLI",
                 envelope.format
             ),
         });

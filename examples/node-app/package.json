@@ -1,0 +1,12 @@
+{
+  "name": "node-app-example",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check:secrets": "kivro status --quiet",
+    "dev": "kivro run -- vite dev",
+    "test": "kivro run -- vitest run",
+    "deploy": "kivro run --env production -- node scripts/deploy.mjs",
+    "gate": "node check-secrets.mjs"
+  }
+}

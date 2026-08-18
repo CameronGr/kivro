@@ -1,0 +1,36 @@
+# Populating a store in CI and running the test suite through `kivro run`.
+#
+# The values still come from the CI provider's own secret storage — this tool
+# does not replace that. What it gives you is one way of declaring what a job
+# needs (the manifest) and one failure mode when something is missing.
+
+name: test
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      # Linux runners have no Secret Service. See docs/SECURITY.md before
+      # using this outside CI: it is plaintext on disk.
+      KIVRO_STORE: file
+      KIVRO_STORE_FILE: ${{ runner.temp }}/kivro-store.json
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install kivro
+        run: cargo install --git https://github.com/CameronGr/kivro kivro-cli
+
+      - name: Populate the store
+        run: |
+          printf '%s' "${{ secrets.DATABASE_URL }}" | kivro set DATABASE_URL --stdin
+          printf '%s' "${{ secrets.AUTH0_CLIENT_ID }}" | kivro set AUTH0_CLIENT_ID --stdin
+          printf '%s' "${{ secrets.AUTH0_CLIENT_SECRET }}" | kivro set AUTH0_CLIENT_SECRET --stdin
+
+      # Exit code 3 fails the job with a list of what is missing.
+      - name: Verify
+        run: kivro status
+
+      - name: Test
+        run: kivro run -- cargo test
