@@ -1,0 +1,72 @@
+name: Deploy site
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "site/**"
+      - ".github/workflows/deploy-site.yml"
+  pull_request:
+    paths:
+      - "site/**"
+      - ".github/workflows/deploy-site.yml"
+  workflow_dispatch:
+
+# Only one deploy at a time per branch; cancel superseded runs.
+concurrency:
+  group: deploy-site-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  deployments: write
+
+env:
+  # Keep in step with the trunk used locally.
+  TRUNK_VERSION: "0.21.14"
+  CF_PAGES_PROJECT: kivro
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Add wasm target
+        run: rustup target add wasm32-unknown-unknown
+
+      # site/ is excluded from the root workspace, so cache it on its own.
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: site
+
+      - name: Install trunk
+        run: |
+          curl -fsSL --retry 3 \
+            "https://github.com/trunk-rs/trunk/releases/download/v${TRUNK_VERSION}/trunk-x86_64-unknown-linux-gnu.tar.gz" \
+            | tar -xz -C /usr/local/bin trunk
+          trunk --version
+
+      - name: Build
+        working-directory: site
+        run: trunk build --release
+
+      # Routing is client side, so unknown paths must serve index.html.
+      # _redirects has to sit at the bundle root, which trunk does not copy it to.
+      - name: Add SPA fallback
+        working-directory: site
+        run: |
+          printf '/*    /index.html    200\n' > dist/_redirects
+          cp dist/index.html dist/404.html
+
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: "4"
+          workingDirectory: site
+          command: >-
+            pages deploy dist
+            --project-name=${{ env.CF_PAGES_PROJECT }}
+            --branch=${{ github.head_ref || github.ref_name }}

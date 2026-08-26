@@ -1,11 +1,11 @@
 mod app;
-mod components;
+mod content;
+mod nav;
 mod pages;
-mod routes;
-
-use app::App;
+mod shell;
+mod ui;
 
 fn main() {
     console_error_panic_hook::set_once();
-    leptos::mount::mount_to_body(App);
+    leptos::mount::mount_to_body(app::App);
 }

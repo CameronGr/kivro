@@ -1,17 +1,25 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>kivro — secrets in the OS keyring, not in .env</title>
+        <meta
+            name="description"
+            content="kivro keeps the list of secrets a project needs in a committed manifest and the values in the OS credential store, injecting them straight into the process that needs them."
+        />
 
-    <title>kivro</title>
-    <meta name="description" content="Documentation for kivro." />
+        <link data-trunk rel="tailwind-css" href="input.css" />
+        <link data-trunk rel="rust" data-wasm-opt="z" />
+        <link data-trunk rel="copy-dir" href="public" />
 
-    <!-- `-all` lets wasm-opt accept the wasm features current rustc emits by default. -->
-    <link data-trunk rel="rust" data-wasm-opt="z" data-wasm-opt-params="-all" />
-    <link data-trunk rel="css" href="styles/main.css" />
-    <link data-trunk rel="icon" href="public/favicon.svg" />
-    <link data-trunk rel="copy-dir" href="public" />
-  </head>
-  <body></body>
+        <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+    </head>
+    <body class="bg-black"></body>
 </html>
