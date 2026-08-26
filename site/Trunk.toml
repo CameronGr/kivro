@@ -7,7 +7,9 @@ filehash = true
 [tools]
 # Pinned so builds do not depend on whatever wasm-opt happens to be on PATH;
 # a stale binaryen there will reject the wasm features current rustc emits.
-wasm_opt = "version_123"
+# No binaryen infers `bulk-memory-opt` from the target-features section, so the
+# release build also passes `--enable-bulk-memory-opt` (see index.html).
+wasm_opt = "version_132"
 
 [watch]
 watch = ["index.html", "src", "styles", "public"]

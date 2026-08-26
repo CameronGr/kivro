@@ -10,7 +10,16 @@
         />
 
         <link data-trunk rel="tailwind-css" href="input.css" />
-        <link data-trunk rel="rust" data-wasm-opt="z" />
+        <!-- rustc emits `memory.copy` under `+bulk-memory`, but binaryen gates it
+             behind the separate `bulk-memory-opt` feature and will not infer it
+             from the wasm target-features section. Without this, wasm-opt fails
+             to validate its own input on a release build. -->
+        <link
+            data-trunk
+            rel="rust"
+            data-wasm-opt="z"
+            data-wasm-opt-params="--enable-bulk-memory-opt"
+        />
         <link data-trunk rel="copy-dir" href="public" />
 
         <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
